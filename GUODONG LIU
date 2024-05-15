@@ -1,0 +1,75 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+public class StoreManagement extends JFrame implements ActionListener {
+    private Map<String, String> inventory = new HashMap<>();
+    private Map<String, String> products = new HashMap<>();
+    private JTextField productNameField;
+    private JTextField quantityField;
+    private JButton addProductButton;
+    private JButton searchProductButton;
+    private JTextArea displayArea;
+
+    public StoreManagement() {
+        setTitle("StoreManagement");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+
+        JLabel productNameLabel = new JLabel("Product Nme:");
+        productNameLabel.setBounds(20, 20, 100, 20);
+        add(productNameLabel);
+
+        productNameField = new JTextField();
+        productNameField.setBounds(120, 20, 150, 20);
+        add(productNameField);
+
+        JLabel quantityLabel = new JLabel("Quantity:");
+        quantityLabel.setBounds(20, 50, 100, 20);
+        add(quantityLabel);
+
+        quantityField = new JTextField();
+        quantityField.setBounds(120, 50, 50, 20);
+        add(quantityField);
+
+        addProductButton = new JButton("Add Product");
+        addProductButton.setBounds(20, 80, 120, 30);
+        addProductButton.addActionListener(this);
+        add(addProductButton);
+
+        searchProductButton = new JButton("Search Product");
+        searchProductButton.setBounds(150, 80, 120, 30);
+        searchProductButton.addActionListener(this);
+        add(searchProductButton);
+
+        displayArea = new JTextArea();
+        displayArea.setBounds(20, 120, 350, 120);
+        add(displayArea);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addProductButton) {
+            String productName = productNameField.getText();
+            String quantity = quantityField.getText();
+            inventory.put(productName, quantity);
+            displayArea.append("Product added " + productName + "-Quantity" + quantity + "\n");
+        } else if (e.getSource() == searchProductButton) {
+            String productName = productNameField.getText();
+            if (inventory.containsKey(productName)) {
+                displayArea.append("Product found: " + productName + "\n");
+            } else {
+                displayArea.append("Product not found.\n");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new StoreManagement();
+    }
+}
